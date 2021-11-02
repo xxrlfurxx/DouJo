@@ -30,7 +30,7 @@ const ProjectEdit = () => {
                   <option selected>관리자</option>
                   <option value="1">강윤석</option>
                   <option value="2">이준희</option>
-                  <option value="3">허준</option>
+                  <option value="3">허준22</option>
                 </select>
               </td>
             </tr>
