@@ -1,0 +1,66 @@
+.board .features {
+  display: flex;
+  margin-top: 15px;
+}
+.task-state-name {
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+  justify-content: space-between;
+  display: flex;
+}
+.board .features .search_task i {
+  margin: 7px 0 0 15px;
+}
+.board .features .search_task input {
+  // position: absolute;
+  height: 40px;
+  // width: 100%;
+  left: 0;
+  top: 0;
+  border-radius: 12px;
+  outline: none;
+  border: none;
+  background: rgb(246, 247, 255);
+  padding-left: 50px;
+  font-size: 1rem;
+  color: #1d1b31;
+}
+.board .features .search_task .bi-search {
+  position: absolute;
+  z-index: 99;
+  color: #1d1b31;
+  font-size: 1.2rem;
+}
+.board .features .features_btn {
+  margin-top: 7px;
+  margin-left: 25px;
+}
+.board .features .features_btn .board_btn:hover {
+  cursor: pointer;
+  background: rgb(246, 247, 255);
+  border-radius: 7px;
+}
+.taskboard {
+  background-color: rgb(235, 235, 235);
+  padding: 0.5rem 0.25rem 0.5rem 0.25rem;
+  // padding-right: 0.5rem;
+  // padding-left: 0.5rem;
+  margin-right: 0.7rem;
+  margin-top: 1.5rem;
+  width: 200px;
+  min-height: 330px;
+  text-align: left;
+  border-radius: 2%;
+}
+.tasks {
+  background-color: rgb(255, 255, 255);
+  margin: 0.6rem 0 0 0;
+  min-height: 130px;
+  border-radius: 2%;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+.edit-task-state {
+  margin-right: 0.7rem;
+  margin-top: 1.5rem;
+}
