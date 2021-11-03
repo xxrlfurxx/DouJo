@@ -53,6 +53,28 @@ const CreateProject = ({ item, onClose, onSave }: ModalProp) => {
               className="w-100"
               ref={inputRef}
             />
+            <input
+              type="date"
+              defaultValue={item.startdate}
+              className="form-control"
+            />
+            <input
+              type="date"
+              defaultValue={item.enddate}
+              className="form-control"
+            />
+            <select className="form-select" aria-label="Default select example">
+              <option selected>담당자</option>
+              <option value="1">강윤석</option>
+              <option value="2">이준희</option>
+              <option value="3">허준</option>
+            </select>
+            <select className="form-select" aria-label="Default select example">
+              <option selected>담당자</option>
+              <option value="1">강윤석</option>
+              <option value="2">이준희</option>
+              <option value="3">허준</option>
+            </select>
           </div>
           <div className="modal-footer">
             <button

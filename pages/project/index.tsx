@@ -1,9 +1,11 @@
-import { ProxyObjectState } from "immer/dist/internal";
-import { useState } from "react";
-
+import { useRouter } from "next/router";
 
 
 function Project() {
+  const router = useRouter();
+
+  const id = router.query.id as string;
+  console.log(id);
 
 
   return (
@@ -14,6 +16,9 @@ function Project() {
         <div className="d-flex justify-content-end mb-2">
           <button
             className="btn btn-primary"
+            onClick={() => {
+              router.push(`/project/create/`);
+            }}
           >
             <i className="bi bi-plus" />
             생성

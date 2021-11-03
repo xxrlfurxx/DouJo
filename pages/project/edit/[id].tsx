@@ -1,4 +1,13 @@
+import { useRouter } from "next/router";
+
+
 const ProjectEdit = () => {
+
+  const router = useRouter();
+
+  const id = router.query.id as string;
+  console.log(id);
+
   return (
     <>
       <section style={{ width: "40vw" }} className="mx-auto">
@@ -30,7 +39,7 @@ const ProjectEdit = () => {
                   <option selected>관리자</option>
                   <option value="1">강윤석</option>
                   <option value="2">이준희</option>
-                  <option value="3">허준22</option>
+                  <option value="3">허준</option>
                 </select>
               </td>
             </tr>
@@ -70,7 +79,7 @@ const ProjectEdit = () => {
             <button
               className="btn btn-danger"
               onClick={() => {
-
+                router.push(`/project`);
               }}
             >
               <i className="bi bi-trash me-1 d-flex justify-content-right" />

@@ -1,4 +1,10 @@
+import Router from 'next/router'
+
 const ProjectEdit = () => {
+  const projectmenu = () => {
+    Router.push("/project");
+  }
+
   return (
     <>
       <section style={{ width: "40vw" }} className="mx-auto">
@@ -39,9 +45,7 @@ const ProjectEdit = () => {
           <div style={{ width: "50%" }}>
             <button
               className="btn btn-secondary me-1"
-              onClick={() => {
-
-              }}
+              onClick={projectmenu}
             >
               <i className="bi bi-grid-3x3-gap me-1"></i>
               목록
