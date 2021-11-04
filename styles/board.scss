@@ -2,12 +2,6 @@
   display: flex;
   margin-top: 15px;
 }
-.task-state-name {
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
-  justify-content: space-between;
-  display: flex;
-}
 .board .features .search_task i {
   margin: 7px 0 0 15px;
 }
@@ -40,7 +34,10 @@
   background: rgb(246, 247, 255);
   border-radius: 7px;
 }
-.taskboard {
+.board .taskboard {
+  display: flex;
+}
+.taskboard_column {
   background-color: rgb(235, 235, 235);
   padding: 0.5rem 0.25rem 0.5rem 0.25rem;
   // padding-right: 0.5rem;
@@ -48,17 +45,30 @@
   margin-right: 0.7rem;
   margin-top: 1.5rem;
   width: 200px;
-  min-height: 330px;
+  height: fit-content;
   text-align: left;
   border-radius: 2%;
 }
-.tasks {
+.board .taskboard .taskboard_column .column_name {
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+  justify-content: space-between;
+  display: flex;
+}
+
+.board .taskboard .taskboard_column .tasks {
   background-color: rgb(255, 255, 255);
   margin: 0.6rem 0 0 0;
-  min-height: 130px;
+  height: fit-content;
   border-radius: 2%;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
   text-align: center;
+}
+.board .taskboard .taskboard_column .tasks:hover {
+  background-color: rgb(246, 247, 255);
+}
+.board .taskboard .taskboard_column .tasks .task_summary {
+  font-size: 0.75rem;
 }
 .edit-task-state {
   margin-right: 0.7rem;

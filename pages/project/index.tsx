@@ -1,11 +1,58 @@
 import { useRouter } from "next/router";
+import React, { useState } from "react";
+import ProjectModal from '../../components/ProjectModal';
+import ProjectDetailOffCanvas from '../../components/ProjectDetailOffCanvas';
 
+
+
+interface StateProps {
+  id: number;
+  projectname: string;
+  milestone: string;
+  startdate: string;
+  enddate: string;
+  manager: string;
+  enginner: string;
+}
 
 function Project() {
+  const [projectState, setprojectState] = useState<StateProps[]>([
+    {
+      id: 1,
+      projectname: "협업툴 만들기1",
+      milestone: "board제작",
+      startdate: "2021-11-01",
+      enddate: "2021-11-30",
+      manager: "강윤석",
+      enginner: "강윤석",
+    },
+    {
+      id: 2,
+      projectname: "협업툴 만들기2",
+      milestone: "wiki제작",
+      startdate: "2021-11-01",
+      enddate: "2021-11-30",
+      manager: "이준희",
+      enginner: "이준희",
+    },
+    {
+      id: 3,
+      projectname: "협업툴 만들기3",
+      milestone: "프로젝트 뷰 제작",
+      startdate: "2021-11-01",
+      enddate: "2021-11-30",
+      manager: "허준",
+      enginner: "허준",
+    }
+  ]);
+
+
   const router = useRouter();
 
   const id = router.query.id as string;
   console.log(id);
+
+  const [modalShow, setModalShow] = React.useState(false);
 
 
   return (
@@ -16,13 +63,13 @@ function Project() {
         <div className="d-flex justify-content-end mb-2">
           <button
             className="btn btn-primary"
-            onClick={() => {
-              router.push(`/project/create/`);
-            }}
+            onClick={() => setModalShow(true)}
           >
             <i className="bi bi-plus" />
             생성
           </button>
+          <ProjectModal show={modalShow} onHide={() => { setModalShow(false) }} />
+
         </div>
         <div>
           <table className="table table-hover">
@@ -52,18 +99,20 @@ function Project() {
               </tr>
             </thead>
             <tbody>
-              <tr
-                style={{ cursor: "pointer" }}
-              >
-                <th scope="row"></th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-
-              </tr>
+              {projectState.map((item) => (
+                <tr
+                  style={{ cursor: "pointer" }}
+                  className="projectList" key={item.id}
+                >
+                  <th scope="row">{item.id}</th>
+                  <td>{item.projectname}</td>
+                  <td>{item.milestone}</td>
+                  <td>{item.startdate}</td>
+                  <td>{item.enddate}</td>
+                  <td>{item.manager}</td>
+                  <td>{item.enginner}</td>
+                </tr>
+              ))}
             </tbody>
             <tfoot>
               <tr>
@@ -79,5 +128,7 @@ function Project() {
     </>
   );
 }
+
+
 
 export default Project;

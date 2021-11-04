@@ -1,0 +1,107 @@
+import { Offcanvas } from "react-bootstrap";
+import Button from "@restart/ui/esm/Button";
+import { useState } from "react";
+
+
+interface ProjectDeatilOffCanvasProp {
+
+}
+
+
+const option = [
+  {
+    name: 'Enble body scrolling',
+    scroll: true,
+    backdrop: false,
+  },
+];
+
+function ProjectDeatilOffCanvas({ name, ...props }: ProjectDeatilOffCanvas) {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
+  return (
+    <>
+      <Button className="primary me-2" onClick={handleShow} >
+        {name}
+      </Button>
+      <Offcanvas show={show} onHide={handleClose} {...props}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <section style={{ width: "40vw" }} className="mx-auto">
+            <h2 className="text-center">Project Detail</h2>
+            <table className="table">
+              <tbody>
+                <tr>
+                  <th>프로젝트 명</th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th>시작일</th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th>종료일</th>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <th>PM</th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th>담당자</th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th>마일스톤</th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th>메모</th>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="d-flex">
+              <div style={{ width: "50%" }}>
+                <button
+                  className="btn btn-secondary me-1"
+
+                >
+                  <i className="bi bi-grid-3x3-gap me-1"></i>
+                  목록
+                </button>
+              </div>
+              <div style={{ width: "50%" }} className="d-flex justify-content-end">
+                <button
+                  className="btn btn-primary me-1"
+                  onClick={() => {
+
+                  }}
+                >
+                  <i className="bi bi-pencil me-1" />
+                  수정
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => {
+
+                  }}
+                >
+                  <i className="bi bi-trash me-1" />
+                  삭제
+                </button>
+              </div>
+            </div>
+          </section>
+        </Offcanvas.Body>
+      </Offcanvas>
+    </>
+  );
+}
+export default ProjectDeatilOffCanvas;

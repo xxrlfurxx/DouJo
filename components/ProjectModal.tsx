@@ -1,17 +1,34 @@
-import { useRouter } from "next/router";
+import React from 'react';
+import Modal from 'react-bootstrap/Modal';
+import ModalHeader from 'react-bootstrap/ModalHeader';
+import Button from 'react-bootstrap/Button';
+import ModalTitle from 'react-bootstrap/ModalTitle';
+import ModalBody from 'react-bootstrap/ModalBody'
+import ModalFooter from 'react-bootstrap/ModalFooter'
 
 
-const ProjectEdit = () => {
+// const [modalShow, setModalShow] = React.useState(false);
 
-  const router = useRouter();
+interface ProjectModalProp {
+  show: boolean;
+  onHide: () => void;
+}
 
-  const id = router.query.id as string;
-  console.log(id);
-
+function ProjectModal({ show, onHide }: ProjectModalProp) {
   return (
-    <>
-      <section style={{ width: "40vw" }} className="mx-auto">
-        <h2 className="text-center">Project Edit</h2>
+    <Modal
+      show={show}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      onHide={onHide}
+    >
+      <ModalHeader closeButton>
+        <ModalTitle id="contained-modal-title-vcenter">
+          프로젝트 생성
+        </ModalTitle>
+      </ModalHeader>
+      <ModalBody>
         <table className="table">
           <tbody>
             <tr>
@@ -54,41 +71,15 @@ const ProjectEdit = () => {
                 </select>
               </td>
             </tr>
-            <tr>
-              <th>마일스톤</th>
-              <td></td>
-            </tr>
-            <tr>
-              <th>메모</th>
-              <td>
-                <textarea className="form-control" style={{ height: "15vh" }}></textarea>
-              </td>
-            </tr>
           </tbody>
         </table>
-        <div className="d-flex">
-          <div style={{ width: "50%" }}>
-            <button
-              className="btn btn-secondary me-1"
-              onClick={() => {
-              }}
-            >
-              <i className="bi bi-pencil me-1 d-flex justify-content-right" />
-              저장
-            </button>
-            <button
-              className="btn btn-danger"
-              onClick={() => {
-                router.push(`/project`);
-              }}
-            >
-              <i className="bi bi-trash me-1 d-flex justify-content-right" />
-              취소
-            </button>
-          </div>
-        </div>
-      </section>
-    </>
+      </ModalBody>
+      <ModalFooter>
+        <Button className="secondary" onClick={onHide}>Close</Button>
+        {/* <Button className="primary" onClick={props.onHide}>Save</Button> */}
+      </ModalFooter>
+    </Modal>
   );
-};
-export default ProjectEdit;
+}
+
+export default ProjectModal;

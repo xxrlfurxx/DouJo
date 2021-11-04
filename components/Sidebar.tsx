@@ -14,7 +14,7 @@ function Sidebar() {
 
   return (
     <>
-      <div className="sidebar">
+      {/* <div className="sidebar">
         <div className="logo_content">
           <div className="logo">
             <i className="bi bi-tools"></i>
@@ -66,7 +66,7 @@ function Sidebar() {
           <i className="bi bi-box-arrow-right"></i>
         </div>
       </div>
-      {/* <div className="home_content">
+      <div className="home_content">
       <div className="text">Home Content</div>
     </div> */}
     </>

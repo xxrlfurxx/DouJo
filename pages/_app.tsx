@@ -1,14 +1,20 @@
 import "../styles/sidebar.scss";
 import "../styles/globals.scss";
 import type { AppProps } from "next/app";
+import { GetServerSideProps } from "next";
 import Link from "next/link";
+import { Provider } from "react-redux";
+import { store } from "../provider";
+import { DragDropContext, resetServerContext } from "react-beautiful-dnd";
 // import Appbar from "../components/Appbar";
 // import Sidebar from "../components/Sidebar";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const active = () => { };
+  // const active = () => {};
 
   return (
+    // <Provider store={store}>
+    // <DragDropContext onDragEnd={(result) => console.log(result)}>
     <div className="wrap">
       {/* <header className="app-bar">
           <h1>DouJo</h1>
@@ -98,7 +104,15 @@ function MyApp({ Component, pageProps }: AppProps) {
       </article>
       <footer className="footer"></footer>
     </div>
+    // </DragDropContext>
+    // </Provider>
   );
 }
 
 export default MyApp;
+
+// export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+//   resetServerContext(); // <-- CALL RESET SERVER CONTEXT, SERVER SIDE
+
+//   return { props: { data: [] } };
+// };
