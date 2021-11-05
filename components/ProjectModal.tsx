@@ -5,9 +5,12 @@ import Button from 'react-bootstrap/Button';
 import ModalTitle from 'react-bootstrap/ModalTitle';
 import ModalBody from 'react-bootstrap/ModalBody'
 import ModalFooter from 'react-bootstrap/ModalFooter'
+import { useEffect, useRef } from "react";
+import { ProjectItem } from "../provider/modules/project";
+import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch, RootState } from '../provider';
 
-
-// const [modalShow, setModalShow] = React.useState(false);
 
 interface ProjectModalProp {
   show: boolean;
@@ -15,6 +18,38 @@ interface ProjectModalProp {
 }
 
 function ProjectModal({ show, onHide }: ProjectModalProp) {
+  const projectnameInput = useRef<HTMLInputElement>(null);
+
+  const projectData = useSelector((state: RootState) => state.project.data);
+
+  const isAddCompleted = useSelector(
+    (state: RootState) => state.photo.isAddCompleted
+  );
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log("--isAddCompleted 변경: " + isAddCompleted);
+    // true이면 화면이동
+    isAddCompleted && router.push("/project");
+  }, [isAddCompleted, router, dispatch]);
+
+
+  const handleAddClick = () => {
+    const item: ProjectItem = {
+      id: projectData.length ? projectData[0].id + 1 : 1,
+      projectname: projectnameInput.current ? projectnameInput.current.value : "",
+
+
+
+    };
+
+    dispatch(requestAddProject(item));
+    // dispatch(requestAddPhotoNext(item)); // 더보기 페이징
+  }
+
   return (
     <Modal
       show={show}
@@ -34,7 +69,7 @@ function ProjectModal({ show, onHide }: ProjectModalProp) {
             <tr>
               <th>프로젝트 명</th>
               <td>
-                <input className="form-control" type="text" />
+                <input className="form-control" type="text" ref={projectnameInput} />
               </td>
             </tr>
             <tr>
@@ -76,10 +111,16 @@ function ProjectModal({ show, onHide }: ProjectModalProp) {
       </ModalBody>
       <ModalFooter>
         <Button className="secondary" onClick={onHide}>Close</Button>
-        {/* <Button className="primary" onClick={props.onHide}>Save</Button> */}
+        <Button
+          className="primary"
+          onClick={() => {
+            handleAddClick();
+          }}
+        >
+          Save</Button>
       </ModalFooter>
     </Modal>
   );
-}
+};
 
 export default ProjectModal;
