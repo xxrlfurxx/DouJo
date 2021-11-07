@@ -11,7 +11,7 @@ export interface ProjectItem {
   startdate: string;
   enddate: string;
   manager: string;
-  enginner: string;
+  engineer: string;
   milestone: string;
 }
 
@@ -94,7 +94,7 @@ const projectSlice = createSlice({
         projectItem.startdate = modifyItem.startdate;
         projectItem.enddate = modifyItem.enddate;
         projectItem.manager = modifyItem.manager;
-        projectItem.enginner = modifyItem.enginner;
+        projectItem.engineer = modifyItem.engineer;
       }
       state.isModifyCompleted = true; // 변경 되었음을 표시
     },

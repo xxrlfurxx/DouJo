@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useRef } from "react";
 
 
 const ProjectEdit = () => {
@@ -7,6 +8,12 @@ const ProjectEdit = () => {
 
   const id = router.query.id as string;
   console.log(id);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const add = () => {
+
+  }
 
   return (
     <>
