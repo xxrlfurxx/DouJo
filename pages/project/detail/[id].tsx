@@ -14,7 +14,10 @@ const ProjectDetail = () => {
     <>
       <section style={{ width: "40vw" }} className="mx-auto">
         <h2 className="text-center">Project Detail</h2>
+
         <div className="text-center my-5">데이터가 없습니다.</div>
+
+
         <table className="table">
           <tbody>
             <tr>
@@ -47,6 +50,7 @@ const ProjectDetail = () => {
             </tr>
           </tbody>
         </table>
+
         <div className="d-flex">
           <div style={{ width: "50%" }}>
             <button

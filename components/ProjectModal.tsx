@@ -25,16 +25,19 @@ function ProjectModal({ show, onHide }: ProjectModalProp) {
   const projectData = useSelector((state: RootState) => state.project.data);
   const dispatch = useDispatch<AppDispatch>();
   const projectname = useRef<HTMLInputElement>(null);
+  const startdate = useRef<HTMLInputElement>(null);
+  const enddate = useRef<HTMLInputElement>(null);
 
   const handleAddClick = () => {
     const item: ProjectItem = {
       id: projectData.length > 0 ? projectData[0].id + 1 : 1,
       projectname: projectname.current ? projectname.current.value : "",
-      startdate: '',
-      enddate: '',
+      startdate: startdate.current ? startdate.current.value : "",
+      enddate: enddate.current ? enddate.current.value : "",
       manager: '',
       engineer: '',
       milestone: '',
+      memo: '',
     };
     dispatch(addProject(item));
     router.push(`/project`);
@@ -67,13 +70,13 @@ function ProjectModal({ show, onHide }: ProjectModalProp) {
             <tr>
               <th>시작일</th>
               <td>
-                <input className="form-control" type="date" />
+                <input className="form-control" type="date" ref={startdate} />
               </td>
             </tr>
             <tr>
               <th>종료일</th>
               <td>
-                <input className="form-control" type="date" />
+                <input className="form-control" type="date" ref={enddate} />
               </td>
             </tr>
             <tr>
@@ -105,7 +108,9 @@ function ProjectModal({ show, onHide }: ProjectModalProp) {
         <Button className="secondary" onClick={onHide}>Close</Button>
         <Button className="primary" onClick={() => {
           handleAddClick();
-        }}>Save</Button>
+        }}
+
+        >Save</Button>
       </ModalFooter>
     </Modal>
   );

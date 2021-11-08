@@ -2,35 +2,21 @@ import { Offcanvas } from "react-bootstrap";
 import Button from "@restart/ui/esm/Button";
 import { useState } from "react";
 
-
-interface ProjectDeatilOffCanvasProp {
-
+interface ProjectDetailOffCanvasProp {
+  show: boolean;
+  onHide: () => void;
 }
 
 
-const option = [
-  {
-    name: 'Enble body scrolling',
-    scroll: true,
-    backdrop: false,
-  },
-];
-
-function ProjectDeatilOffCanvas({ name, ...props }: ProjectDeatilOffCanvas) {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+function ProjectDeatilOffCanvas({ show, onHide }: ProjectDetailOffCanvasProp) {
 
 
   return (
     <>
-      <Button className="primary me-2" onClick={handleShow} >
-        {name}
-      </Button>
-      <Offcanvas show={show} onHide={handleClose} {...props}>
+      <Offcanvas
+        show={show}
+        onHide={onHide}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <section style={{ width: "40vw" }} className="mx-auto">

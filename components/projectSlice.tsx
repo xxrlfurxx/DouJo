@@ -8,7 +8,9 @@ export interface ProjectItem {
   manager: string;
   engineer: string;
   milestone: string;
+  memo: string;
 }
+
 
 interface ProjectState {
   data: ProjectItem[]; // 프로젝트 아이템 배열
@@ -25,6 +27,7 @@ const initialState: ProjectState = {
       enddate: "2021-11-30",
       manager: "강윤석",
       engineer: "강윤석",
+      memo: "",
     },
     {
       id: 2,
@@ -34,6 +37,7 @@ const initialState: ProjectState = {
       enddate: "2021-11-30",
       manager: "이준희",
       engineer: "이준희",
+      memo: "",
     },
     {
       id: 1,
@@ -43,6 +47,7 @@ const initialState: ProjectState = {
       enddate: "2021-11-30",
       manager: "허준",
       engineer: "허준",
+      memo: "",
     }
   ],
   isFetched: false,

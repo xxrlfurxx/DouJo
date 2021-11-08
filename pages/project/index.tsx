@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ProjectModal from '../../components/ProjectModal';
 import { useSelector } from "react-redux";
 import { RootState } from "../../provider";
+import ProjectDetailOffCanvas from "../../components/ProjectDetailOffCanvas";
 
 
 function Project() {
@@ -14,6 +15,11 @@ function Project() {
   console.log(id);
 
   const [modalShow, setModalShow] = React.useState(false);
+
+  const [offcanvasShow, setOffcanvasShow] = React.useState(false);
+
+
+
 
 
   return (
@@ -44,6 +50,11 @@ function Project() {
                 </th>
                 <th scope="col" style={{ width: "20%" }}>
                   마일스톤
+                  <button
+                    className="btn btn-outline-light"
+                  >
+                    <i className="bi bi-plus" />
+                  </button>
                 </th>
                 <th scope="col" style={{ width: "15%" }}>
                   시작일
@@ -65,10 +76,10 @@ function Project() {
                   key={`project-tr-${index}`}
                   className="table"
                   style={{ cursor: "pointer" }}
-                  onClick={() => {
-
-                  }}
+                  onClick={() => { setOffcanvasShow(true) }}
                 >
+                  <ProjectDetailOffCanvas show={offcanvasShow} onHide={() => { setOffcanvasShow(false) }} />
+                  
                   <th scope="row"></th>
                   <td>{item.projectname}</td>
                   <td>{item.milestone}</td>
