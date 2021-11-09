@@ -1,10 +1,9 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import ProjectModal from '../../components/ProjectModal';
+import ProjectModal from "../../components/ProjectModal";
 import { useSelector } from "react-redux";
 import { RootState } from "../../provider";
 import ProjectDetailOffCanvas from "../../components/ProjectDetailOffCanvas";
-
 
 function Project() {
   const project = useSelector((state: RootState) => state.project);
@@ -14,13 +13,10 @@ function Project() {
   const id = router.query.id as string;
   console.log(id);
 
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
-  const [offcanvasShow, setOffcanvasShow] = React.useState(false);
-
-
-
-
+  const [offcanvasShow, setOffcanvasShow] = useState(false);
+  const [selectedId, setSelectedId] = useState(0);
 
   return (
     <>
@@ -35,8 +31,12 @@ function Project() {
             <i className="bi bi-plus" />
             생성
           </button>
-          <ProjectModal show={modalShow} onHide={() => { setModalShow(false) }} />
-
+          <ProjectModal
+            show={modalShow}
+            onHide={() => {
+              setModalShow(false);
+            }}
+          />
         </div>
         <div>
           <table className="table table-hover">
@@ -50,9 +50,7 @@ function Project() {
                 </th>
                 <th scope="col" style={{ width: "20%" }}>
                   마일스톤
-                  <button
-                    className="btn btn-outline-light"
-                  >
+                  <button className="btn btn-outline-light">
                     <i className="bi bi-plus" />
                   </button>
                 </th>
@@ -76,11 +74,13 @@ function Project() {
                   key={`project-tr-${index}`}
                   className="table"
                   style={{ cursor: "pointer" }}
-                  onClick={() => { setOffcanvasShow(true) }}
+                  onClick={() => {
+                    // console.log("--");
+                    setOffcanvasShow(true);
+                    setSelectedId(item.id);
+                  }}
                 >
-                  <ProjectDetailOffCanvas show={offcanvasShow} onHide={() => { setOffcanvasShow(false) }} />
-                  
-                  <th scope="row"></th>
+                  <th scope="row">{item.id}</th>
                   <td>{item.projectname}</td>
                   <td>{item.milestone}</td>
                   <td>{item.startdate}</td>
@@ -89,24 +89,33 @@ function Project() {
                   <td>{item.engineer}</td>
                 </tr>
               ))}
-
             </tbody>
             {!project.data.length && (
               <tfoot>
                 <tr>
-                  <td colSpan={8} style={{ textAlign: "center" }}>생성된 프로젝트가 없습니다.</td>
+                  <td colSpan={8} style={{ textAlign: "center" }}>
+                    생성된 프로젝트가 없습니다.
+                  </td>
                 </tr>
               </tfoot>
             )}
           </table>
+          <ProjectDetailOffCanvas
+            show={offcanvasShow}
+            onHide={() => {
+              setOffcanvasShow(false);
+            }}
+            selectedId={selectedId}
+          />
         </div>
       </div>
       <div className="d-flex justify-content-center ">
-        <a href="#!" className="link-secondary fs-6 text-nowrap">More</a>
+        <a href="#!" className="link-secondary fs-6 text-nowrap">
+          More
+        </a>
       </div>
     </>
   );
 }
-
 
 export default Project;

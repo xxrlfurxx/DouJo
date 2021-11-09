@@ -1,27 +1,62 @@
 import produce from "immer";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { MutableRefObject, useRef, useState, useEffect } from "react";
 import Alert from "../../../components/Alert";
-import { ProjectItem } from "../../../components/projectSlice";
-
-
+import { ProjectItem } from "../../../provider/modules/project";
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../../provider";
+import { modifyProject } from "../../../provider/modules/project";
 
 const ProjectEdit = () => {
-
   const router = useRouter();
 
-  const id = router.query.id as string;
-  console.log(id);
+  const selectedId = router.query.id as unknown as number;
 
   const [projectList, setProjectList] = useState<ProjectItem[]>([]);
 
   const [isError, setIsError] = useState(false);
 
-  const milestone = useRef<HTMLInputElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const trRef = useRef<HTMLTableRowElement>(null);
+  const projectItem = useSelector((state: RootState) =>
+    state.project.data.find((item) => item.id === selectedId)
+  );
 
+  const isModifyCompleted = useSelector(
+    (state: RootState) => state.project.isModifyCompleted
+  );
 
+  const dispatch = useDispatch<AppDispatch>();
+
+  const projectname = useRef() as MutableRefObject<HTMLInputElement>;
+  const startdate = useRef() as MutableRefObject<HTMLInputElement>;
+  const enddate = useRef() as MutableRefObject<HTMLInputElement>;
+  const milestone = useRef() as MutableRefObject<HTMLInputElement>;
+  const formRef = useRef() as MutableRefObject<HTMLFormElement>;
+  const trRef = useRef() as MutableRefObject<HTMLTableRowElement>;
+  const memoTxta = useRef() as MutableRefObject<HTMLTextAreaElement>;
+  const manager = useRef() as MutableRefObject<HTMLSelectElement>;
+  const engineer = useRef() as MutableRefObject<HTMLSelectElement>;
+
+  useEffect(() => {
+    isModifyCompleted && router.push("/project");
+  }, [isModifyCompleted, router]);
+
+  const handleSaveClick = () => {
+    if (projectItem) {
+      const item = { ...projectItem };
+      item.projectname = projectname.current.value;
+      item.startdate = startdate.current.value;
+      item.enddate = enddate.current.value;
+      item.manager = manager.current.value;
+      item.engineer = engineer.current.value;
+      item.milestone = milestone.current.value;
+      item.memo = memoTxta.current.value;
+
+      saveItem(item);
+    }
+  };
+  const saveItem = (item: ProjectItem) => {
+    dispatch(modifyProject(item));
+  };
 
   const add = (e: React.KeyboardEvent<HTMLInputElement> | null) => {
     // 이벤트 객체가 있을 때는 입력박스에서 엔터 입력
@@ -38,13 +73,13 @@ const ProjectEdit = () => {
     const project: ProjectItem = {
       id: projectList.length > 0 ? projectList[0].id + 1 : 1,
       // optional chaning
-      milestone: milestone.current?.value,
+      milestone: milestone.current.value,
       projectname: "",
       startdate: "",
       enddate: "",
       manager: "",
       engineer: "",
-      memo: ""
+      memo: "",
     };
     setProjectList(
       // produce(([draftstate변수]) => {draft state 변수 조작})
@@ -91,8 +126,6 @@ const ProjectEdit = () => {
     );
   };
 
-
-
   return (
     <>
       <section style={{ width: "40vw" }} className="mx-auto">
@@ -102,47 +135,70 @@ const ProjectEdit = () => {
             <tr>
               <th>프로젝트 명</th>
               <td>
-                <input className="form-control" type="text" />
+                <input
+                  className="form-control"
+                  type="text"
+                  defaultValue={projectItem?.projectname}
+                  ref={projectItem?.projectname}
+                />
               </td>
             </tr>
             <tr>
               <th>시작일</th>
               <td>
-                <input className="form-control" type="date" />
+                <input
+                  className="form-control"
+                  type="date"
+                  defaultValue={projectItem?.startdate}
+                  ref={startdate}
+                />
               </td>
             </tr>
             <tr>
               <th>종료일</th>
               <td>
-                <input className="form-control" type="date" />
+                <input
+                  className="form-control"
+                  type="date"
+                  defaultValue={projectItem?.enddate}
+                  ref={enddate}
+                />
               </td>
             </tr>
             <tr>
               <th>PM</th>
               <td>
-                <select defaultValue="default" className="form-select" aria-label="Default select example">
+                <select
+                  defaultValue="default"
+                  className="form-select"
+                  aria-label="Default select example"
+                  ref={projectItem?.manager}
+                >
                   <option selected>관리자</option>
-                  <option value="1">강윤석</option>
-                  <option value="2">이준희</option>
-                  <option value="3">허준</option>
+                  <option value="강윤석">강윤석</option>
+                  <option value="이준희">이준희</option>
+                  <option value="허준">허준</option>
                 </select>
               </td>
             </tr>
             <tr>
               <th>담당자</th>
               <td>
-                <select defaultValue="default" className="form-select" aria-label="Default select example">
+                <select
+                  defaultValue="default"
+                  className="form-select"
+                  aria-label="Default select example"
+                  ref={projectItem?.engineer}
+                >
                   <option selected>담당자</option>
-                  <option value="1">강윤석</option>
-                  <option value="2">이준희</option>
-                  <option value="3">허준</option>
+                  <option value="강윤석">강윤석</option>
+                  <option value="이준희">이준희</option>
+                  <option value="허준">허준</option>
                 </select>
               </td>
             </tr>
             <tr>
-              <th>
-                마일스톤
-              </th>
+              <th>마일스톤</th>
               <td>
                 <form
                   className="d-flex"
@@ -184,7 +240,8 @@ const ProjectEdit = () => {
                       <tr ref={trRef} key={item.id}>
                         <td>{item.milestone}</td>
                         <td>
-                          <button className="btn btn-outline-secondary btn-sm text-nowrap"
+                          <button
+                            className="btn btn-outline-secondary btn-sm text-nowrap"
                             onClick={() => {
                               del(item.id, index);
                             }}
@@ -198,12 +255,15 @@ const ProjectEdit = () => {
                 </table>
               </td>
             </tr>
-            <tr>
-            </tr>
+            <tr></tr>
             <tr>
               <th>메모</th>
               <td>
-                <textarea className="form-control" style={{ height: "15vh" }}></textarea>
+                <textarea
+                  className="form-control"
+                  style={{ height: "15vh" }}
+                  ref={projectItem?.memo}
+                ></textarea>
               </td>
             </tr>
           </tbody>
@@ -213,6 +273,7 @@ const ProjectEdit = () => {
             <button
               className="btn btn-secondary me-1"
               onClick={() => {
+                handleSaveClick();
               }}
             >
               <i className="bi bi-pencil me-1 d-flex justify-content-right" />

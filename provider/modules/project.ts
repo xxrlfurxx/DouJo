@@ -7,12 +7,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // 데이터구조를 interface로 만듦
 export interface ProjectItem {
   id: number;
-  projectname: string | undefined;
+  projectname: string;
   startdate: string;
   enddate: string;
   manager: string;
   engineer: string;
   milestone: string;
+  memo: string;
 }
 
 export interface ProjectPage {
@@ -42,7 +43,58 @@ interface ProjectState {
 
 // photo state를 목록 -> array
 const initialState: ProjectState = {
-  data: [],
+  data: [
+    {
+      id: 5,
+      projectname: "협업툴 만들기5",
+      milestone: "drag&drop",
+      startdate: "2021-11-01",
+      enddate: "2021-11-30",
+      manager: "강윤석",
+      engineer: "강윤석",
+      memo: "작업중",
+    },
+    {
+      id: 4,
+      projectname: "협업툴 만들기4",
+      milestone: "메인화면",
+      startdate: "2021-11-01",
+      enddate: "2021-11-30",
+      manager: "강윤석",
+      engineer: "허준",
+      memo: "작업중",
+    },
+    {
+      id: 3,
+      projectname: "협업툴 만들기3",
+      milestone: "project제작",
+      startdate: "2021-11-01",
+      enddate: "2021-11-30",
+      manager: "허준",
+      engineer: "허준",
+      memo: "작업중",
+    },
+    {
+      id: 2,
+      projectname: "협업툴 만들기2",
+      milestone: "wiki제작",
+      startdate: "2021-11-01",
+      enddate: "2021-11-30",
+      manager: "이준희",
+      engineer: "이준희",
+      memo: "작업중",
+    },
+    {
+      id: 1,
+      projectname: "협업툴 만들기1",
+      milestone: "board제작",
+      startdate: "2021-11-01",
+      enddate: "2021-11-30",
+      manager: "강윤석",
+      engineer: "강윤석",
+      memo: "작업중",
+    },
+  ],
   isFetched: false,
   page: 0,
   // pageSize: photoPageSize ? +photoPageSize : 8,
@@ -95,6 +147,8 @@ const projectSlice = createSlice({
         projectItem.enddate = modifyItem.enddate;
         projectItem.manager = modifyItem.manager;
         projectItem.engineer = modifyItem.engineer;
+        projectItem.milestone = modifyItem.milestone;
+        projectItem.memo = modifyItem.memo;
       }
       state.isModifyCompleted = true; // 변경 되었음을 표시
     },

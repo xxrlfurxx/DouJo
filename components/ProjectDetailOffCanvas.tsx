@@ -1,73 +1,96 @@
 import { Offcanvas } from "react-bootstrap";
-import Button from "@restart/ui/esm/Button";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import Button from "react-bootstrap/Button";
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../provider";
+import { removeProject } from "../provider/modules/project";
+import { ProjectItem } from "../provider/modules/project";
 
-interface ProjectDetailOffCanvasProp {
+interface ProjectDeatilOffCanvasProp {
   show: boolean;
   onHide: () => void;
+  selectedId: number;
 }
 
+function ProjectDeatilOffCanvas({
+  show,
+  onHide,
+  selectedId,
+}: ProjectDeatilOffCanvasProp) {
+  const router = useRouter();
 
-function ProjectDeatilOffCanvas({ show, onHide }: ProjectDetailOffCanvasProp) {
+  const dispatch = useDispatch<AppDispatch>();
 
+  const projectItem = useSelector((state: RootState) =>
+    state.project.data.find((item) => item.id === selectedId)
+  );
 
   return (
     <>
-      <Offcanvas
-        show={show}
-        onHide={onHide}>
-        <Offcanvas.Header closeButton>
-        </Offcanvas.Header>
+      <Offcanvas show={show} onHide={onHide} placement="end">
+        {/* {라이브러리에서는 여기 프롭스 씀} */}
+        <Offcanvas.Header closeButton></Offcanvas.Header>
         <Offcanvas.Body>
-          <section style={{ width: "40vw" }} className="mx-auto">
+          <section className="mx-auto">
             <h2 className="text-center">Project Detail</h2>
+            {/* {!projectItem && (
+              <div className="text-center my-5">데이터가 없습니다.</div>
+            )} */}
+            {/* {projectItem && ( */}
             <table className="table">
               <tbody>
                 <tr>
                   <th>프로젝트 명</th>
-                  <td></td>
+                  <td>{projectItem?.projectname}</td>
                 </tr>
                 <tr>
                   <th>시작일</th>
-                  <td></td>
+                  <td>{projectItem?.startdate}</td>
                 </tr>
                 <tr>
                   <th>종료일</th>
-                  <td> </td>
+                  <td>{projectItem?.enddate}</td>
                 </tr>
                 <tr>
                   <th>PM</th>
-                  <td></td>
+                  <td>{projectItem?.manager}</td>
                 </tr>
                 <tr>
                   <th>담당자</th>
-                  <td></td>
+                  <td>{projectItem?.engineer}</td>
                 </tr>
                 <tr>
                   <th>마일스톤</th>
-                  <td></td>
+                  <td>{projectItem?.milestone}</td>
                 </tr>
                 <tr>
                   <th>메모</th>
-                  <td></td>
+                  <td>{projectItem?.memo}</td>
                 </tr>
               </tbody>
             </table>
+            {/* )} */}
             <div className="d-flex">
               <div style={{ width: "50%" }}>
-                <button
+                {/* <button
                   className="btn btn-secondary me-1"
-
+                  onClick={() => {
+                    router.push(`/project`);
+                  }}
                 >
                   <i className="bi bi-grid-3x3-gap me-1"></i>
                   목록
-                </button>
+                </button> */}
               </div>
-              <div style={{ width: "50%" }} className="d-flex justify-content-end">
+              <div
+                style={{ width: "50%" }}
+                className="d-flex justify-content-end"
+              >
                 <button
                   className="btn btn-primary me-1"
                   onClick={() => {
-
+                    router.push(`/project/edit/${selectedId}`);
                   }}
                 >
                   <i className="bi bi-pencil me-1" />
@@ -76,7 +99,8 @@ function ProjectDeatilOffCanvas({ show, onHide }: ProjectDetailOffCanvasProp) {
                 <button
                   className="btn btn-danger"
                   onClick={() => {
-
+                    dispatch(removeProject(selectedId));
+                    onHide();
                   }}
                 >
                   <i className="bi bi-trash me-1" />
