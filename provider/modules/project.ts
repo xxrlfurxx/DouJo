@@ -16,6 +16,11 @@ export interface ProjectItem {
   memo: string;
 }
 
+export interface MilestonItem {
+  id: number;
+  milestone: string;
+}
+
 export interface ProjectPage {
   data: ProjectItem[];
   totalElements: number;

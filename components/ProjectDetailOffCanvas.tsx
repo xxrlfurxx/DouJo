@@ -1,11 +1,8 @@
 import { Offcanvas } from "react-bootstrap";
-import { useState } from "react";
 import { useRouter } from "next/router";
-import Button from "react-bootstrap/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../provider";
 import { removeProject } from "../provider/modules/project";
-import { ProjectItem } from "../provider/modules/project";
 
 interface ProjectDeatilOffCanvasProp {
   show: boolean;
@@ -29,7 +26,6 @@ function ProjectDeatilOffCanvas({
   return (
     <>
       <Offcanvas show={show} onHide={onHide} placement="end">
-        {/* {라이브러리에서는 여기 프롭스 씀} */}
         <Offcanvas.Header closeButton></Offcanvas.Header>
         <Offcanvas.Body>
           <section className="mx-auto">

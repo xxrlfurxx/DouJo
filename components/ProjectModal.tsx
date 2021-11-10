@@ -30,7 +30,7 @@ function ProjectModal({ show, onHide }: ProjectModalProp) {
   const enddate = useRef() as MutableRefObject<HTMLInputElement>;
   const manager = useRef() as MutableRefObject<HTMLSelectElement>;
   const engineer = useRef() as MutableRefObject<HTMLSelectElement>;
-  const memoTxta = useRef() as MutableRefObject<HTMLTextAreaElement>;
+  const memo = useRef() as MutableRefObject<HTMLTextAreaElement>;
 
   const handleAddClick = () => {
     const item: ProjectItem = {
@@ -40,7 +40,7 @@ function ProjectModal({ show, onHide }: ProjectModalProp) {
       enddate: enddate.current.value,
       manager: manager.current.value,
       engineer: engineer.current.value,
-      memo: memoTxta.current.value,
+      memo: memo.current.value,
       milestone: "",
     };
     dispatch(addProject(item));
@@ -119,7 +119,7 @@ function ProjectModal({ show, onHide }: ProjectModalProp) {
                 <textarea
                   className="form-control"
                   style={{ height: "15vh" }}
-                  ref={memoTxta}
+                  ref={memo}
                 ></textarea>
               </td>
             </tr>
