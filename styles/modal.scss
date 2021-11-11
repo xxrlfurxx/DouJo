@@ -1,0 +1,157 @@
+@import "./app-variables.scss";
+
+.modal_wrap {
+  z-index: 9999;
+  display: flex;
+  position: fixed;
+  justify-content: space-around;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba($color: #57575734, $alpha: 0.5);
+  // cursor: default;
+}
+.modal_wrap .modal_content {
+  position: absolute;
+  // margin: 10rem;
+  top: 16vh;
+  // bottom: 100px;
+  // left: calc();
+  // right: 10%;
+  min-width: 60vw;
+  min-height: 60vh;
+  max-width: 500px;
+  max-height: 400px;
+  background: #fff;
+  border-radius: 1%;
+  overflow: auto;
+  padding: 0;
+  text-align: left;
+}
+.modal_wrap .modal_content {
+  display: flex;
+  flex-direction: column;
+}
+.modal_wrap .modal_content .modal_name {
+  font-size: 1.2rem;
+  padding: 16px;
+}
+.modal_wrap .modal_content .form_body {
+  padding: 16px 32px;
+  overflow-y: scroll;
+  font-size: 0.75rem;
+}
+.modal_wrap .modal_content .form_body .project_milestone {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.modal_wrap .modal_content .form_body .project_milestone .task_project {
+  display: flex;
+  flex-direction: column;
+}
+// project
+.modal_wrap
+  .modal_content
+  .form_body
+  .project_milestone
+  .task_project
+  .project_txt {
+  font-size: 1rem;
+}
+.modal_wrap
+  .modal_content
+  .form_body
+  .project_milestone
+  .task_project
+  .project_icon {
+  cursor: default;
+}
+// milestone
+.modal_wrap .modal_content .form_body .project_milestone .task_milestone {
+  display: flex;
+  flex-direction: column;
+}
+.modal_wrap
+  .modal_content
+  .form_body
+  .project_milestone
+  .task_milestone
+  .milestone_txt {
+  font-size: 1rem;
+}
+.modal_wrap
+  .modal_content
+  .form_body
+  .project_milestone
+  .task_milestone
+  .milestone_icon {
+  cursor: default;
+}
+// essential value icon
+.modal_wrap .modal_content .form_body .bi-asterisk {
+  color: $custom_warning_color;
+  font-size: 3px;
+}
+// currentState
+.modal_wrap .modal_content .form_body .task_currentState .currentState_txt {
+  font-size: 1rem;
+}
+// summary
+.modal_wrap .modal_content .form_body .task_summary .summary_txt {
+  font-size: 1rem;
+}
+// reporter
+.modal_wrap .modal_content .form_body .task_reporter .reporter_txt {
+  font-size: 1rem;
+}
+// description
+.modal_wrap .modal_content .form_body .task_description .description_txt {
+  font-size: 1rem;
+}
+// modal btn
+.modal_wrap .modal_content .modal_btn {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 8px 40px 8px 70px;
+}
+.modal_wrap .modal_content .modal_btn .enroll_btn {
+  color: $custom_txt_color;
+  font-size: 1.2rem;
+  margin: 8px;
+  border-radius: 7px;
+  padding: 0 3px 0 3px;
+  // background: $custom_bg_secondary_color; // $custom_primary_color;
+  cursor: pointer;
+}
+.modal_wrap .modal_content .modal_btn .enroll_btn:hover {
+  background: $custom_bg_color; //$custom_primary_color_hover;
+}
+.modal_wrap .modal_content .modal_btn .enroll_btn i {
+  padding-right: 3px;
+}
+.modal_wrap .modal_content .modal_btn .delete_btn {
+  color: $custom_txt_color;
+  font-size: 1.2rem;
+  margin: 8px;
+  border-radius: 7px;
+  padding: 0 3px 0 3px;
+  // background: $custom_bg_secondary_color; // $custom_primary_color;
+  cursor: pointer;
+}
+.modal_wrap .modal_content .modal_btn .delete_btn:hover {
+  background: $custom_bg_color; //$custom_primary_color_hover;
+}
+.modal_wrap .modal_content .modal_btn .cancel_btn {
+  font-size: 1.2rem;
+  margin: 8px;
+  border-radius: 7px;
+  padding: 0 3px 0 3px;
+  cursor: pointer;
+}
+.modal_wrap .modal_content .modal_btn .cancel_btn:hover {
+  background: $custom_bg_color;
+}

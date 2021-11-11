@@ -1,6 +1,12 @@
+@import "./app-variables.scss";
+
 .board .features {
   display: flex;
   margin-top: 15px;
+  margin-bottom: 1.5rem;
+}
+.board h2 {
+  cursor: default;
 }
 .board .features .search_task i {
   margin: 7px 0 0 15px;
@@ -14,15 +20,15 @@
   border-radius: 12px;
   outline: none;
   border: none;
-  background: rgb(246, 247, 255);
+  background: $custom_bg_secondary_color;
   padding-left: 50px;
   font-size: 1rem;
-  color: #1d1b31;
+  color: $custom_input_txt_color;
 }
 .board .features .search_task .bi-search {
   position: absolute;
   z-index: 99;
-  color: #1d1b31;
+  color: $custom_input_txt_color;
   font-size: 1.2rem;
 }
 .board .features .features_btn {
@@ -31,20 +37,20 @@
 }
 .board .features .features_btn .board_btn:hover {
   cursor: pointer;
-  background: rgb(246, 247, 255);
+  background: $custom_bg_secondary_color;
   border-radius: 7px;
 }
 .board .taskboard {
   display: flex;
 }
 .taskboard_column {
-  background-color: rgb(235, 235, 235);
+  background-color: $custom_bg_color;
   padding: 0.5rem 0.25rem 0.5rem 0.25rem;
   // padding-right: 0.5rem;
   // padding-left: 0.5rem;
   margin-right: 0.7rem;
-  margin-top: 1.5rem;
   width: 200px;
+  min-height: 70px;
   height: fit-content;
   text-align: left;
   border-radius: 2%;
@@ -54,23 +60,83 @@
   padding-right: 0.3rem;
   justify-content: space-between;
   display: flex;
+  flex-wrap: wrap;
+  cursor: default;
+  font-size: 0.9rem;
 }
-
-.board .taskboard .taskboard_column .tasks {
-  background-color: rgb(255, 255, 255);
+.board .taskboard .taskboard_column .column_name:hover {
+  background-color: $custom_bg_secondary_color;
+  border-radius: 2%;
+}
+.board .taskboard .taskboard_column .column_name .column_detail {
+  cursor: pointer;
+}
+.board .taskboard .taskboard_column .task_columnBox {
+  min-height: 1.5rem;
+}
+.board .taskboard .taskboard_column .task_columnBox .tasks {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
   margin: 0.6rem 0 0 0;
   height: fit-content;
   border-radius: 2%;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
   text-align: center;
 }
-.board .taskboard .taskboard_column .tasks:hover {
-  background-color: rgb(246, 247, 255);
+.board .taskboard .taskboard_column .task_columnBox .tasks:hover {
+  //
+  background-color: $custom_bg_secondary_color;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.2);
 }
-.board .taskboard .taskboard_column .tasks .task_summary {
+.board
+  .taskboard
+  .taskboard_column
+  .task_columnBox
+  .tasks
+  .task_wrap
+  .task_summary {
+  //
   font-size: 0.75rem;
 }
-.edit-task-state {
-  margin-right: 0.7rem;
-  margin-top: 1.5rem;
+.board
+  .taskboard
+  .taskboard_column
+  .task_columnBox
+  .tasks
+  .task_wrap
+  > .task_description {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.board
+  .taskboard
+  .taskboard_column
+  .task_columnBox
+  .tasks
+  .task_wrap
+  .task_description
+  .task_estimatedTime {
+  font-size: 0.6rem;
+  width: 17px;
+  height: 17px;
+  margin: 0.4rem;
+}
+.board
+  .taskboard
+  .taskboard_column
+  .task_columnBox
+  .tasks
+  .task_wrap
+  .task_description
+  .task_reporter_thumb {
+  width: 17px;
+  height: 17px;
+  margin: 0.4rem;
+  background-color: $custom_bg_color;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
 }
