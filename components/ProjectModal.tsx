@@ -41,7 +41,7 @@ function ProjectModal({ show, onHide }: ProjectModalProp) {
       manager: manager.current.value,
       engineer: engineer.current.value,
       memo: memo.current.value,
-      milestone: "",
+      milestone: [],
     };
     dispatch(addProject(item));
     router.push(`/project`);
@@ -90,7 +90,7 @@ function ProjectModal({ show, onHide }: ProjectModalProp) {
                   aria-label="Default select example"
                   ref={manager}
                 >
-                  <option selected>관리자</option>
+                  <option value="선택 안함">선택 안함</option>
                   <option value="강윤석">강윤석</option>
                   <option value="이준희">이준희</option>
                   <option value="허준">허준</option>
@@ -106,7 +106,7 @@ function ProjectModal({ show, onHide }: ProjectModalProp) {
                   aria-label="Default select example"
                   ref={engineer}
                 >
-                  <option selected>담당자</option>
+                  <option value="선택 안함">선택 안함</option>
                   <option value="강윤석">강윤석</option>
                   <option value="이준희">이준희</option>
                   <option value="허준">허준</option>

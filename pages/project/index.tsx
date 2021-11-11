@@ -4,7 +4,7 @@ import ProjectModal from "../../components/ProjectModal";
 import { useSelector } from "react-redux";
 import { RootState } from "../../provider";
 import ProjectDetailOffCanvas from "../../components/ProjectDetailOffCanvas";
-import MilestoneCreateOffCanvas from "../../components/milestoneCreateOffCanvas";
+import MilestoneCreateOffCanvas from "../../components/MilestoneCreateOffCanvas";
 
 function Project() {
   const project = useSelector((state: RootState) => state.project);
@@ -12,7 +12,7 @@ function Project() {
   const router = useRouter();
 
   const id = router.query.id as string;
-  console.log(id);
+  // console.log(id);
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -41,7 +41,7 @@ function Project() {
           />
         </div>
         <div>
-          <table className="table table-hover">
+          <table className="table table-hover text-center">
             <thead>
               <tr>
                 <th scope="col" style={{ width: "5%" }}>
@@ -52,14 +52,6 @@ function Project() {
                 </th>
                 <th scope="col" style={{ width: "20%" }}>
                   마일스톤
-                  <button
-                    className="btn btn-outline-light"
-                    onClick={() => {
-                      console.log("--");
-                      setMilestoneOffcanvasShow(true);
-                    }}>
-                    <i className="bi bi-plus" />
-                  </button>
                 </th>
                 <th scope="col" style={{ width: "15%" }}>
                   시작일
@@ -89,7 +81,20 @@ function Project() {
                 >
                   <th scope="row">{item.id}</th>
                   <td>{item.projectname}</td>
-                  <td>{item.milestone}</td>
+                  <td>
+                    {item.milestone[0]?.name}
+                    <button
+                      className="btn btn-light"
+                      style={{ padding: "0.1rem 0.1rem" }}
+                      onClick={() => {
+                        console.log("--");
+                        setMilestoneOffcanvasShow(true);
+                        setOffcanvasShow(false);
+                      }}
+                    >
+                      <i className="bi bi-plus" />
+                    </button>
+                  </td>
                   <td>{item.startdate}</td>
                   <td>{item.enddate}</td>
                   <td>{item.manager}</td>

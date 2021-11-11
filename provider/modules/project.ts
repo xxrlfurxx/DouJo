@@ -12,13 +12,16 @@ export interface ProjectItem {
   enddate: string;
   manager: string;
   engineer: string;
-  milestone: string;
+  milestone: MilestonItem[];
   memo: string;
 }
 
 export interface MilestonItem {
   id: number;
-  milestone: string;
+  name: string;
+  startdate: string;
+  enddate: string;
+  projectId: number;
 }
 
 export interface ProjectPage {
@@ -52,7 +55,15 @@ const initialState: ProjectState = {
     {
       id: 5,
       projectname: "협업툴 만들기5",
-      milestone: "drag&drop",
+      milestone: [
+        {
+          id: 5,
+          name: "drag&drop",
+          startdate: "2021-11-01",
+          enddate: "2021-11-30",
+          projectId: 5,
+        },
+      ],
       startdate: "2021-11-01",
       enddate: "2021-11-30",
       manager: "강윤석",
@@ -62,7 +73,15 @@ const initialState: ProjectState = {
     {
       id: 4,
       projectname: "협업툴 만들기4",
-      milestone: "메인화면",
+      milestone: [
+        {
+          id: 4,
+          projectId: 4,
+          name: "메인화면",
+          startdate: "2021-11-01",
+          enddate: "2021-11-30",
+        },
+      ],
       startdate: "2021-11-01",
       enddate: "2021-11-30",
       manager: "강윤석",
@@ -72,7 +91,15 @@ const initialState: ProjectState = {
     {
       id: 3,
       projectname: "협업툴 만들기3",
-      milestone: "project제작",
+      milestone: [
+        {
+          id: 3,
+          projectId: 3,
+          name: "project제작",
+          startdate: "2021-11-01",
+          enddate: "2021-11-30",
+        },
+      ],
       startdate: "2021-11-01",
       enddate: "2021-11-30",
       manager: "허준",
@@ -82,7 +109,15 @@ const initialState: ProjectState = {
     {
       id: 2,
       projectname: "협업툴 만들기2",
-      milestone: "wiki제작",
+      milestone: [
+        {
+          id: 2,
+          projectId: 2,
+          name: "wiki제작",
+          startdate: "2021-11-01",
+          enddate: "2021-11-30",
+        },
+      ],
       startdate: "2021-11-01",
       enddate: "2021-11-30",
       manager: "이준희",
@@ -92,7 +127,15 @@ const initialState: ProjectState = {
     {
       id: 1,
       projectname: "협업툴 만들기1",
-      milestone: "board제작",
+      milestone: [
+        {
+          id: 1,
+          projectId: 1,
+          name: "borad제작",
+          startdate: "2021-11-01",
+          enddate: "2021-11-30",
+        },
+      ],
       startdate: "2021-11-01",
       enddate: "2021-11-30",
       manager: "강윤석",
@@ -158,9 +201,9 @@ const projectSlice = createSlice({
       state.isModifyCompleted = true; // 변경 되었음을 표시
     },
     initialProjectItem: (state, action: PayloadAction<ProjectItem>) => {
-      const photo = action.payload;
+      const project = action.payload;
       // 백엔드에서 받아온 데이터
-      state.data = [{ ...photo }];
+      state.data = [{ ...project }];
     },
     // payload값으로 state를 초기화하는 reducer 필요함
     initialProject: (state, action: PayloadAction<ProjectItem[]>) => {
@@ -200,6 +243,53 @@ const projectSlice = createSlice({
       // 데이터를 받아옴으로 값을 남김
       state.isFetched = true;
     },
+    addMilestone: (state, action: PayloadAction<MilestonItem>) => {
+      const milestone = action.payload;
+      console.log("--in reducer function--");
+      const project = state.data.find(
+        (prj) => prj.id === milestone.projectId
+      ) as ProjectItem;
+      project.milestone.push(milestone);
+      state.isAddCompleted = true; // 추가가 되었음으로 표시
+    },
+    removeMilestone: (state, action: PayloadAction<MilestonItem>) => {
+      const id = action.payload;
+      // id에 해당하는 아이템의 index를 찾고 그 index로 splice를 한다.
+      state.data.splice(
+        state.data.findIndex((item) => item.id === id),
+        1
+      );
+      state.isRemoveCompleted = true; // 삭제 되었음을 표시
+    },
+    modifyMilestone: (state, action: PayloadAction<MilestonItem>) => {
+      // 생성해서 넘긴 객체
+      const modifyItem = action.payload;
+      // state에 있는 객체
+      const projectItem = state.data.find(
+        (item) => item.id == modifyItem.projectId
+      );
+      const milestonItem = projectItem?.milestone.find(
+        (item) => item.id == modifyItem.id
+      );
+      if (milestonItem) {
+        (milestonItem.name = milestonItem.name),
+          (milestonItem.startdate = modifyItem.startdate),
+          (milestonItem.enddate = modifyItem.enddate);
+      }
+      state.isModifyCompleted = true; // 변경 되었음을 표시
+    },
+    initialMilestoneItem: (state, action: PayloadAction<ProjectItem>) => {
+      const milestone = action.payload;
+      // 백엔드에서 받아온 데이터
+      state.data = [{ ...milestone }];
+    },
+    initialMilestone: (state, action: PayloadAction<ProjectItem[]>) => {
+      const milestones = action.payload;
+      // 백엔드에서 받아온 데이터
+      state.data = milestones;
+      // 데이터를 받아옴으로 값을 남김
+      state.isFetched = true;
+    },
   },
 });
 
@@ -208,6 +298,11 @@ export const {
   addProject,
   removeProject,
   modifyProject,
+  addMilestone,
+  removeMilestone,
+  modifyMilestone,
+  initialMilestoneItem,
+  initialMilestone,
   initialProjectItem,
   initialProject,
   initialCompleted,

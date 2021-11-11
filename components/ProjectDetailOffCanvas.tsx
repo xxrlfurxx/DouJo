@@ -58,7 +58,7 @@ function ProjectDeatilOffCanvas({
                 </tr>
                 <tr>
                   <th>마일스톤</th>
-                  <td>{projectItem?.milestone}</td>
+                  <td>{projectItem?.milestone[0]?.name}</td>
                 </tr>
                 <tr>
                   <th>메모</th>
@@ -83,6 +83,15 @@ function ProjectDeatilOffCanvas({
                 style={{ width: "50%" }}
                 className="d-flex justify-content-end"
               >
+                <button
+                  className="btn btn-secondary me-1"
+                  onClick={() => {
+                    router.push(`/board`);
+                  }}
+                >
+                  <i className="bi bi-grid-3x3-gap me-1"></i>
+                  Task목록
+                </button>
                 <button
                   className="btn btn-primary me-1"
                   onClick={() => {

@@ -1,12 +1,16 @@
 import { Offcanvas } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../provider";
-import { MutableRefObject, useRef, useState } from "react";
-import { addProject, MilestonItem } from "../provider/modules/project";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
+import project, {
+  addMilestone,
+  MilestonItem,
+  modifyMilestone,
+  removeMilestone,
+} from "../provider/modules/project";
 import produce from "immer";
 import { ProjectItem } from "../provider/modules/project";
 import { useRouter } from "next/router";
-
 
 interface MilestoneCreateOffCanvasProp {
   show: boolean;
@@ -19,46 +23,50 @@ function MilestoneCreateOffCanvas({
   onHide,
   selectedId,
 }: MilestoneCreateOffCanvasProp) {
-
   const router = useRouter();
+
+  const isModifyCompleted = useSelector(
+    (state: RootState) => state.project.isModifyCompleted
+  );
+
   const dispatch = useDispatch<AppDispatch>();
 
   const projectItem = useSelector((state: RootState) =>
     state.project.data.find((item) => item.id === selectedId)
   );
+  const milestoneList = projectItem?.milestone;
+  // const MilestonItem = state.data.find((item) =>)
 
-  const [milestoneList, setMilestoneList] = useState<MilestonItem[]>([])
+  // const [milestoneList, setMilestoneList] = useState<MilestonItem[]>([]);
 
   const milestoneRef = useRef() as MutableRefObject<HTMLInputElement>;
   const formRef = useRef() as MutableRefObject<HTMLFormElement>;
   const ulRef = useRef() as MutableRefObject<HTMLUListElement>;
+  const startdate = useRef() as MutableRefObject<HTMLInputElement>;
+  const enddate = useRef() as MutableRefObject<HTMLInputElement>;
 
-  const handleAddClick = () => {
-    const item: ProjectItem = {
-      id: projectItem.length > 0 ? projectItem[0].id + 1 : 1,
-      milestone: milestoneRef.current.value,
-      projectname: "",
-      startdate: "",
-      enddate: "",
-      manager: "",
-      engineer: "",
-      memo: ""
-    };
-    dispatch(addProject(item));
-    router.push(`/project`);
-  };
+  useEffect(() => {
+    isModifyCompleted && router.push("/project");
+  }, [isModifyCompleted, router]);
 
   const add = () => {
-    const milestone: MilestonItem = {
-      id: milestoneList.length > 0 ? milestoneList[0].id + 1 : 1,
-      milestone: milestoneRef.current.value,
+    if (milestoneList) {
+      const milestone: MilestonItem = {
+        id: milestoneList.length > 0 ? milestoneList[0].id + 1 : 1,
+        name: milestoneRef.current.value,
+        startdate: startdate.current.value,
+        enddate: enddate.current.value,
+        projectId: selectedId,
+      };
 
-    };
-    setMilestoneList(
-      produce((state) => {
-        state.unshift(milestone);
-      })
-    );
+      dispatch(addMilestone(milestone));
+    }
+
+    // setMilestoneList(
+    //   produce((state) => {
+    //     state.unshift(milestone);
+    //   })
+    // );
 
     // 입력값 초기화
     formRef.current?.reset();
@@ -66,12 +74,20 @@ function MilestoneCreateOffCanvas({
 
   const del = (id: number, index: number) => {
     console.log(id);
-    // immer로 state 배열 직접 조작(index로 삭제)
-    setMilestoneList(
-      produce((state) => {
-        state.splice(index, 1);
-      })
-    );
+    dispatch(removeMilestone(id));
+  };
+
+  const handleSaveClick = () => {
+    // if (milestoneItem) {
+    //   const item = { ...milestoneItem };
+    //   item.projectname = name.current.value;
+    //   item.startdate = startdate.current.value;
+    //   item.enddate = enddate.current.value;
+    //   saveItem(item);
+    // }
+  };
+  const saveItem = (item: ProjectItem) => {
+    // dispatch(modifyMilestone(item));
   };
 
   return (
@@ -81,6 +97,17 @@ function MilestoneCreateOffCanvas({
         <Offcanvas.Body>
           <div className="mx-auto">
             <h2 className="text-center my-5">마일스톤 추가</h2>
+            <div>
+              <button
+                type="button"
+                className="btn btn-primary text-nowrap"
+                onClick={() => {
+                  add();
+                }}
+              >
+                추가
+              </button>
+            </div>
             <form
               className="d-flex"
               ref={formRef}
@@ -92,35 +119,52 @@ function MilestoneCreateOffCanvas({
                 placeholder="마일 스톤 ..."
                 ref={milestoneRef}
               />
-              <button
-                type="button"
-                className="btn btn-primary text-nowrap"
-                onClick={() => {
-                  add();
-                }}
-              >
-                추가
-              </button>
             </form>
-            <ul id="ul-list" className="list-group list-group-flush mt-3" ref={ulRef}>
+            <div>
+              <div>시작일</div>
+              <input
+                className="form-control"
+                type="date"
+                ref={startdate}
+                // min={item.startdate}
+                // max={item.enddate}
+              />
+
+              <div>종료일</div>
+              <input
+                className="form-control"
+                type="date"
+                ref={enddate}
+                // min={item.stardate}
+                // max={item.enddate}
+              />
+            </div>
+            <ul
+              id="ul-list"
+              className="list-group list-group-flush mt-3"
+              ref={ulRef}
+            >
               {/* 데이터와 UI요소 바인딩 */}
-              {milestoneList.map((item, index) => (
-                <li className="list-group-item d-flex" key={item.id}>
-                  <div className="w-100">
-                    <span className="me-1">{item.milestone}</span>
+              {milestoneList &&
+                milestoneList.map((item, index) => (
+                  <li className="list-group-item d-flex" key={item.id}>
+                    <div className="w-100">
+                      <span className="me-1">{item.name}</span>
+                      <span>
+                        - {item.startdate}~{item.enddate}
+                      </span>
+                    </div>
 
-                  </div>
-
-                  <button
-                    className="btn btn-outline-secondary btn-sm text-nowrap"
-                    onClick={() => {
-                      del(item.id, index);
-                    }}
-                  >
-                    삭제
-                  </button>
-                </li>
-              ))}
+                    <button
+                      className="btn btn-outline-secondary btn-sm text-nowrap"
+                      onClick={() => {
+                        del(item.id, index);
+                      }}
+                    >
+                      삭제
+                    </button>
+                  </li>
+                ))}
             </ul>
             <div className="d-flex">
               <div style={{ width: "50%" }}>
@@ -150,7 +194,7 @@ function MilestoneCreateOffCanvas({
                 <button
                   className="primary"
                   onClick={() => {
-                    handleAddClick();
+                    handleSaveClick();
                     onHide();
                   }}
                 >
@@ -160,7 +204,6 @@ function MilestoneCreateOffCanvas({
               </div>
             </div>
           </div>
-
         </Offcanvas.Body>
       </Offcanvas>
     </>
