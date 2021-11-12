@@ -24,6 +24,11 @@ export interface MilestonItem {
   projectId: number;
 }
 
+export interface MilestoneEdit {
+  milestoneId: number;
+  projectId: number;
+}
+
 export interface ProjectPage {
   data: ProjectItem[];
   totalElements: number;
@@ -252,13 +257,17 @@ const projectSlice = createSlice({
       project.milestone.push(milestone);
       state.isAddCompleted = true; // 추가가 되었음으로 표시
     },
-    removeMilestone: (state, action: PayloadAction<MilestonItem>) => {
-      const id = action.payload;
+    removeMilestone: (state, action: PayloadAction<MilestoneEdit>) => {
+      const milestoneId = action.payload.milestoneId;
+      const projectId = action.payload.projectId;
       // id에 해당하는 아이템의 index를 찾고 그 index로 splice를 한다.
-      state.data.splice(
-        state.data.findIndex((item) => item.id === id),
-        1
-      );
+      const findProject = state.data.find((item) => item.id === projectId);
+      const findMilestoneIndex = findProject?.milestone.findIndex((item) => item.id === milestoneId);
+      if (findMilestoneIndex) {
+        findProject?.milestone.splice(findMilestoneIndex, 1)
+      }
+
+
       state.isRemoveCompleted = true; // 삭제 되었음을 표시
     },
     modifyMilestone: (state, action: PayloadAction<MilestonItem>) => {

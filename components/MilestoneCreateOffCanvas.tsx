@@ -72,22 +72,22 @@ function MilestoneCreateOffCanvas({
     formRef.current?.reset();
   };
 
-  const del = (id: number, index: number) => {
-    console.log(id);
-    dispatch(removeMilestone(id));
+  const del = (removedmilestoneId: number, removedprojectId: number) => {
+    dispatch(removeMilestone({ milestoneId: removedmilestoneId, projectId: removedprojectId }));
   };
 
+
   const handleSaveClick = () => {
-    // if (milestoneItem) {
-    //   const item = { ...milestoneItem };
-    //   item.projectname = name.current.value;
-    //   item.startdate = startdate.current.value;
-    //   item.enddate = enddate.current.value;
-    //   saveItem(item);
-    // }
+    //  if (milestoneItem) {
+    //    const item = { ...milestoneItem };
+    //    item.projectname = name.current.value;
+    //    item.startdate = startdate.current.value;
+    //    item.enddate = enddate.current.value;
+    //    saveItem(item);
+    //  }
   };
   const saveItem = (item: ProjectItem) => {
-    // dispatch(modifyMilestone(item));
+    //  dispatch(modifyMilestone(item));
   };
 
   return (
@@ -126,8 +126,8 @@ function MilestoneCreateOffCanvas({
                 className="form-control"
                 type="date"
                 ref={startdate}
-                // min={item.startdate}
-                // max={item.enddate}
+              // min={item.startdate}
+              // max={item.enddate}
               />
 
               <div>종료일</div>
@@ -135,8 +135,8 @@ function MilestoneCreateOffCanvas({
                 className="form-control"
                 type="date"
                 ref={enddate}
-                // min={item.stardate}
-                // max={item.enddate}
+              // min={item.stardate}
+              // max={item.enddate}
               />
             </div>
             <ul
@@ -158,7 +158,7 @@ function MilestoneCreateOffCanvas({
                     <button
                       className="btn btn-outline-secondary btn-sm text-nowrap"
                       onClick={() => {
-                        del(item.id, index);
+                        del(item.id, item.projectId);
                       }}
                     >
                       삭제

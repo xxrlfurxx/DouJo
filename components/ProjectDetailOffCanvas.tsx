@@ -58,7 +58,8 @@ function ProjectDeatilOffCanvas({
                 </tr>
                 <tr>
                   <th>마일스톤</th>
-                  <td>{projectItem?.milestone[0]?.name}</td>
+                  <td>{projectItem?.milestone[0]?.name}
+                  </td>
                 </tr>
                 <tr>
                   <th>메모</th>
