@@ -11,6 +11,7 @@ import project, {
 import produce from "immer";
 import { ProjectItem } from "../provider/modules/project";
 import { useRouter } from "next/router";
+import MilestoenEdit from "../pages/project/milestone/edit/[id]";
 
 interface MilestoneCreateOffCanvasProp {
   show: boolean;
@@ -35,7 +36,11 @@ function MilestoneCreateOffCanvas({
     state.project.data.find((item) => item.id === selectedId)
   );
   const milestoneList = projectItem?.milestone;
-  // const MilestonItem = state.data.find((item) =>)
+
+  const milestoneId = projectItem?.milestone.find((item) => item.id);
+
+
+
 
   // const [milestoneList, setMilestoneList] = useState<MilestonItem[]>([]);
 
@@ -154,6 +159,17 @@ function MilestoneCreateOffCanvas({
                         - {item.startdate}~{item.enddate}
                       </span>
                     </div>
+                    {/* 보기모드일 때 보이는 버튼 */}
+
+                    <button
+                      className="btn btn-outline-secondary btn-sm ms-2 me-1 text-nowrap"
+                      onClick={() => {
+                        router.push(`/project/milestone/edit/${milestoneId}`);
+                      }}
+                    >
+                      수정
+                    </button>
+
 
                     <button
                       className="btn btn-outline-secondary btn-sm text-nowrap"
@@ -163,6 +179,8 @@ function MilestoneCreateOffCanvas({
                     >
                       삭제
                     </button>
+
+
                   </li>
                 ))}
             </ul>

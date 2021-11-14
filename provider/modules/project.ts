@@ -29,6 +29,7 @@ export interface MilestoneEdit {
   projectId: number;
 }
 
+
 export interface ProjectPage {
   data: ProjectItem[];
   totalElements: number;
@@ -154,6 +155,8 @@ const initialState: ProjectState = {
   pageSize: 8,
   totalPages: 0,
 };
+
+
 
 const projectSlice = createSlice({
   name: "project",
