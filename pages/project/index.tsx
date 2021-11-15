@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 import ProjectModal from "../../components/ProjectModal";
 import { useSelector } from "react-redux";
@@ -6,13 +5,10 @@ import { RootState } from "../../provider";
 import ProjectDetailOffCanvas from "../../components/ProjectDetailOffCanvas";
 import MilestoneCreateOffCanvas from "../../components/MilestoneCreateOffCanvas";
 
+
 function Project() {
   const project = useSelector((state: RootState) => state.project);
-
-  const router = useRouter();
-
-  const id = router.query.id as string;
-  // console.log(id);
+  
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -90,7 +86,9 @@ function Project() {
                         console.log("--");
                         setMilestoneOffcanvasShow(true);
                         setOffcanvasShow(false);
+                        // event?.cancelBubble=true
                       }}
+                     
                     >
                       <i className="bi bi-plus" />
                     </button>

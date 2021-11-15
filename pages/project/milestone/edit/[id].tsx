@@ -2,7 +2,8 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../../provider";
 import { MutableRefObject, useRef, useEffect } from "react";
-import { modifyProject, ProjectItem } from "../../../../provider/modules/project";
+import { MilestonItem, modifyProject, ProjectItem } from "../../../../provider/modules/project";
+import { modifyMilestone } from "../../../../provider/modules/project";
 
 const MilestoenEdit = () => {
   const router = useRouter();
@@ -13,39 +14,34 @@ const MilestoenEdit = () => {
     state.project.data.find((item) => item.id === +id)
   );
 
+  const milestoneItem = projectItem?.milestone.find((item) => item.id)
+
   const isModifyCompleted = useSelector(
     (state: RootState) => state.project.isModifyCompleted
   );
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const projectname = useRef() as MutableRefObject<HTMLInputElement>;
+  const milestonename = useRef() as MutableRefObject<HTMLInputElement>;
   const startdate = useRef() as MutableRefObject<HTMLInputElement>;
   const enddate = useRef() as MutableRefObject<HTMLInputElement>;
-  const manager = useRef() as MutableRefObject<HTMLSelectElement>;
-  const engineer = useRef() as MutableRefObject<HTMLSelectElement>;
-  const memo = useRef() as MutableRefObject<HTMLTextAreaElement>;
 
   useEffect(() => {
     isModifyCompleted && router.push("/project");
   }, [isModifyCompleted, router]);
 
   const handleSaveClick = () => {
-    if (projectItem) {
-      const item = { ...projectItem };
-      item.projectname = projectname.current.value;
+    if (milestoneItem) {
+      const item = { ...milestoneItem };
+      item.name = milestonename.current.value;
       item.startdate = startdate.current.value;
       item.enddate = enddate.current.value;
-      item.manager = manager.current.value;
-      item.engineer = engineer.current.value;
-      item.milestone = [];
-      item.memo = memo.current.value;
 
       saveItem(item);
     }
   };
-  const saveItem = (item: ProjectItem) => {
-    dispatch(modifyProject(item));
+  const saveItem = (item: MilestonItem) => {
+    dispatch(modifyMilestone(item));
   };
 
   return (
@@ -60,8 +56,8 @@ const MilestoenEdit = () => {
                 <input
                   className="form-control"
                   type="text"
-                  defaultValue={projectItem?.projectname}
-                  ref={projectname}
+                  defaultValue={milestoneItem?.name}
+                  ref={milestonename}
                 />
               </td>
             </tr>
@@ -71,7 +67,7 @@ const MilestoenEdit = () => {
                 <input
                   className="form-control"
                   type="date"
-                  defaultValue={projectItem?.startdate}
+                  defaultValue={milestoneItem?.startdate}
                   ref={startdate}
                 />
               </td>
@@ -82,7 +78,7 @@ const MilestoenEdit = () => {
                 <input
                   className="form-control"
                   type="date"
-                  defaultValue={projectItem?.enddate}
+                  defaultValue={milestoneItem?.enddate}
                   ref={enddate}
                 />
               </td>

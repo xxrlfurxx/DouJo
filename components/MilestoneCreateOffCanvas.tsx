@@ -37,7 +37,7 @@ function MilestoneCreateOffCanvas({
   );
   const milestoneList = projectItem?.milestone;
 
-  const milestoneId = projectItem?.milestone.find((item) => item.id);
+  const milestoneItem = projectItem?.milestone.find((item) => item.id);
 
 
 
@@ -83,16 +83,16 @@ function MilestoneCreateOffCanvas({
 
 
   const handleSaveClick = () => {
-    //  if (milestoneItem) {
-    //    const item = { ...milestoneItem };
-    //    item.projectname = name.current.value;
-    //    item.startdate = startdate.current.value;
-    //    item.enddate = enddate.current.value;
-    //    saveItem(item);
-    //  }
+    if (milestoneItem) {
+      const item = { ...milestoneItem };
+      item.name = milestoneRef.current.value;
+      item.startdate = startdate.current.value;
+      item.enddate = enddate.current.value;
+      saveItem(item);
+    }
   };
-  const saveItem = (item: ProjectItem) => {
-    //  dispatch(modifyMilestone(item));
+  const saveItem = (item: MilestonItem) => {
+    dispatch(modifyMilestone(item));
   };
 
   return (
@@ -164,7 +164,7 @@ function MilestoneCreateOffCanvas({
                     <button
                       className="btn btn-outline-secondary btn-sm ms-2 me-1 text-nowrap"
                       onClick={() => {
-                        router.push(`/project/milestone/edit/${milestoneId}`);
+                        router.push(`/project/milestone/edit/${milestoneList}`);
                       }}
                     >
                       수정
