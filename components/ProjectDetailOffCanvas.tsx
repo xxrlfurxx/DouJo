@@ -23,8 +23,6 @@ function ProjectDeatilOffCanvas({
     state.project.data.find((item) => item.id === selectedId)
   );
 
-  const milestoneenddate = projectItem?.milestone.findIndex((item) => item.enddate)
-
   return (
     <>
       <Offcanvas show={show} onHide={onHide} placement="end">
@@ -60,8 +58,10 @@ function ProjectDeatilOffCanvas({
                 </tr>
                 <tr>
                   <th>마일스톤</th>
-                  <td>{projectItem?.milestone[0]?.name} / {projectItem?.milestone[0]?.enddate}
-                  {/*이부분에서 마일스톤 여러개 표시할수 있게 하고 enddate표시 할수있게함*/}
+                  <td>
+                    {projectItem?.milestone[0]?.name} /
+                    {projectItem?.milestone[0]?.enddate}
+                    {/*이부분에서 마일스톤 여러개 표시할수 있게 하고 enddate표시 할수있게함*/}
                   </td>
                 </tr>
                 <tr>
@@ -81,7 +81,7 @@ function ProjectDeatilOffCanvas({
                 >
                   <i className="bi bi-grid-3x3-gap me-1"></i>
                   목록
-                </button> */}
+                // </button> */}
               </div>
               <div
                 style={{ width: "50%" }}

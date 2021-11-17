@@ -2,19 +2,26 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../../provider";
 import { MutableRefObject, useRef, useEffect } from "react";
-import { MilestonItem, modifyProject, ProjectItem } from "../../../../provider/modules/project";
+import { MilestonItem } from "../../../../provider/modules/project";
 import { modifyMilestone } from "../../../../provider/modules/project";
 
 const MilestoenEdit = () => {
   const router = useRouter();
 
-  const id = router.query.id as string;
+  const projectMilestoneId = router.query.id as string;
+  const projectId = +projectMilestoneId.split("-")[0];
+  const milestoneId = +projectMilestoneId.split("-")[1];
+
+  console.log(projectId);
+  console.log(milestoneId);
 
   const projectItem = useSelector((state: RootState) =>
-    state.project.data.find((item) => item.id === +id)
+    state.project.data.find((item) => item.id === projectId)
   );
 
-  const milestoneItem = projectItem?.milestone.find((item) => item.id)
+  const milestoneItem = projectItem?.milestone.find(
+    (item) => item.id === milestoneId
+  );
 
   const isModifyCompleted = useSelector(
     (state: RootState) => state.project.isModifyCompleted
@@ -36,7 +43,6 @@ const MilestoenEdit = () => {
       item.name = milestonename.current.value;
       item.startdate = startdate.current.value;
       item.enddate = enddate.current.value;
-
       saveItem(item);
     }
   };
@@ -91,6 +97,7 @@ const MilestoenEdit = () => {
               className="btn btn-secondary me-1"
               onClick={() => {
                 handleSaveClick();
+                console.log("--save--");
               }}
             >
               <i className="bi bi-pencil me-1 d-flex justify-content-right" />

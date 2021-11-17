@@ -5,10 +5,11 @@ import { RootState } from "../../provider";
 import ProjectDetailOffCanvas from "../../components/ProjectDetailOffCanvas";
 import MilestoneCreateOffCanvas from "../../components/MilestoneCreateOffCanvas";
 
-
 function Project() {
   const project = useSelector((state: RootState) => state.project);
-  
+
+  // delete state.isModifyCompleted;
+  //     console.log("completed22")
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -40,19 +41,19 @@ function Project() {
           <table className="table table-hover text-center">
             <thead>
               <tr>
-                <th scope="col" style={{ width: "5%" }}>
+                <th scope="col" style={{ width: "2%" }}>
                   No
                 </th>
-                <th scope="col" style={{ width: "20%" }}>
+                <th scope="col" style={{ width: "22%" }}>
                   프로젝트명
                 </th>
-                <th scope="col" style={{ width: "20%" }}>
+                <th scope="col" style={{ width: "22%" }}>
                   마일스톤
                 </th>
-                <th scope="col" style={{ width: "15%" }}>
+                <th scope="col" style={{ width: "13%" }}>
                   시작일
                 </th>
-                <th scope="col" style={{ width: "15%" }}>
+                <th scope="col" style={{ width: "13%" }}>
                   종료일
                 </th>
                 <th scope="col" style={{ width: "15%" }}>
@@ -77,7 +78,11 @@ function Project() {
                 >
                   <th scope="row">{item.id}</th>
                   <td>{item.projectname}</td>
-                  <td>
+                  <td
+                    onClick={(e) => {
+                      e.cancelable = true;
+                    }}
+                  >
                     {item.milestone[0]?.name}
                     <button
                       className="btn btn-light"
@@ -86,9 +91,7 @@ function Project() {
                         console.log("--");
                         setMilestoneOffcanvasShow(true);
                         setOffcanvasShow(false);
-                        // event?.cancelBubble=true
                       }}
-                     
                     >
                       <i className="bi bi-plus" />
                     </button>
@@ -126,6 +129,7 @@ function Project() {
           />
         </div>
       </div>
+      <div></div>
       <div className="d-flex justify-content-center ">
         <a href="#!" className="link-secondary fs-6 text-nowrap">
           More

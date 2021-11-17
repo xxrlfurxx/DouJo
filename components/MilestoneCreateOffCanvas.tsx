@@ -4,11 +4,11 @@ import { AppDispatch, RootState } from "../provider";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import project, {
   addMilestone,
+  initialCompleted,
   MilestonItem,
   modifyMilestone,
   removeMilestone,
 } from "../provider/modules/project";
-import produce from "immer";
 import { ProjectItem } from "../provider/modules/project";
 import { useRouter } from "next/router";
 import MilestoenEdit from "../pages/project/milestone/edit/[id]";
@@ -35,12 +35,14 @@ function MilestoneCreateOffCanvas({
   const projectItem = useSelector((state: RootState) =>
     state.project.data.find((item) => item.id === selectedId)
   );
+  console.log("-selectedId-");
+  console.log(selectedId);
+
   const milestoneList = projectItem?.milestone;
+  console.log("--milestoneList--");
+  console.log(milestoneList);
 
   const milestoneItem = projectItem?.milestone.find((item) => item.id);
-
-
-
 
   // const [milestoneList, setMilestoneList] = useState<MilestonItem[]>([]);
 
@@ -51,13 +53,16 @@ function MilestoneCreateOffCanvas({
   const enddate = useRef() as MutableRefObject<HTMLInputElement>;
 
   useEffect(() => {
-    isModifyCompleted && router.push("/project");
+    isModifyCompleted && dispatch(initialCompleted());
   }, [isModifyCompleted, router]);
 
   const add = () => {
     if (milestoneList) {
       const milestone: MilestonItem = {
-        id: milestoneList.length > 0 ? milestoneList[0].id + 1 : 1,
+        id:
+          milestoneList.length > 0
+            ? milestoneList[milestoneList.length - 1].id + 1
+            : 1,
         name: milestoneRef.current.value,
         startdate: startdate.current.value,
         enddate: enddate.current.value,
@@ -65,6 +70,7 @@ function MilestoneCreateOffCanvas({
       };
 
       dispatch(addMilestone(milestone));
+      console.log(milestone.id);
     }
 
     // setMilestoneList(
@@ -78,9 +84,13 @@ function MilestoneCreateOffCanvas({
   };
 
   const del = (removedmilestoneId: number, removedprojectId: number) => {
-    dispatch(removeMilestone({ milestoneId: removedmilestoneId, projectId: removedprojectId }));
+    dispatch(
+      removeMilestone({
+        milestoneId: removedmilestoneId,
+        projectId: removedprojectId,
+      })
+    );
   };
-
 
   const handleSaveClick = () => {
     if (milestoneItem) {
@@ -131,8 +141,8 @@ function MilestoneCreateOffCanvas({
                 className="form-control"
                 type="date"
                 ref={startdate}
-              // min={item.startdate}
-              // max={item.enddate}
+                // min={item.startdate}
+                // max={item.enddate}
               />
 
               <div>종료일</div>
@@ -140,8 +150,8 @@ function MilestoneCreateOffCanvas({
                 className="form-control"
                 type="date"
                 ref={enddate}
-              // min={item.stardate}
-              // max={item.enddate}
+                // min={item.stardate}
+                // max={item.enddate}
               />
             </div>
             <ul
@@ -151,7 +161,7 @@ function MilestoneCreateOffCanvas({
             >
               {/* 데이터와 UI요소 바인딩 */}
               {milestoneList &&
-                milestoneList.map((item, index) => (
+                milestoneList.map((item) => (
                   <li className="list-group-item d-flex" key={item.id}>
                     <div className="w-100">
                       <span className="me-1">{item.name}</span>
@@ -164,23 +174,21 @@ function MilestoneCreateOffCanvas({
                     <button
                       className="btn btn-outline-secondary btn-sm ms-2 me-1 text-nowrap"
                       onClick={() => {
-                        router.push(`/project/milestone/edit/${milestoneList}`);
+                        router.push(`/project/milestone/edit/${selectedId}-${item.id}`);
                       }}
                     >
                       수정
                     </button>
-
-
                     <button
                       className="btn btn-outline-secondary btn-sm text-nowrap"
                       onClick={() => {
                         del(item.id, item.projectId);
+                        // dispatch(removeMilestone(item.milestoneId));
+
                       }}
                     >
                       삭제
                     </button>
-
-
                   </li>
                 ))}
             </ul>
@@ -214,6 +222,7 @@ function MilestoneCreateOffCanvas({
                   onClick={() => {
                     handleSaveClick();
                     onHide();
+                    console.log("--save--");
                   }}
                 >
                   <i className="bi bi-pencil me-1" />

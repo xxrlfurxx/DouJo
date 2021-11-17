@@ -29,7 +29,6 @@ export interface MilestoneEdit {
   projectId: number;
 }
 
-
 export interface ProjectPage {
   data: ProjectItem[];
   totalElements: number;
@@ -63,12 +62,27 @@ const initialState: ProjectState = {
       projectname: "협업툴 만들기5",
       milestone: [
         {
-          id: 5,
+          id: 1,
           name: "drag&drop",
           startdate: "2021-11-01",
           enddate: "2021-11-30",
           projectId: 5,
         },
+        {
+          id: 2,
+          name: "drag&drop2",
+          startdate: "2021-11-03",
+          enddate: "2021-12-30",
+          projectId: 5,
+        },
+        {
+          id: 3,
+          name: "drag&drop3",
+          startdate: "2021-11-02",
+          enddate: "2021-12-01",
+          projectId: 5,
+        },
+        
       ],
       startdate: "2021-11-01",
       enddate: "2021-11-30",
@@ -81,11 +95,25 @@ const initialState: ProjectState = {
       projectname: "협업툴 만들기4",
       milestone: [
         {
-          id: 4,
+          id: 1,
           projectId: 4,
           name: "메인화면",
           startdate: "2021-11-01",
           enddate: "2021-11-30",
+        },
+        {
+          id: 2,
+          name: "메인화면1",
+          startdate: "2021-11-03",
+          enddate: "2021-12-30",
+          projectId: 4,
+        },
+        {
+          id: 3,
+          name: "메인화면2",
+          startdate: "2021-11-02",
+          enddate: "2021-12-01",
+          projectId: 4,
         },
       ],
       startdate: "2021-11-01",
@@ -99,11 +127,25 @@ const initialState: ProjectState = {
       projectname: "협업툴 만들기3",
       milestone: [
         {
-          id: 3,
+          id: 1,
           projectId: 3,
           name: "project제작",
           startdate: "2021-11-01",
           enddate: "2021-11-30",
+        },
+        {
+          id: 2,
+          name: "project제작1",
+          startdate: "2021-11-03",
+          enddate: "2021-12-30",
+          projectId: 3,
+        },
+        {
+          id: 3,
+          name: "project제작2",
+          startdate: "2021-11-02",
+          enddate: "2021-12-01",
+          projectId: 3,
         },
       ],
       startdate: "2021-11-01",
@@ -117,11 +159,24 @@ const initialState: ProjectState = {
       projectname: "협업툴 만들기2",
       milestone: [
         {
-          id: 2,
+          id: 1,
           projectId: 2,
           name: "wiki제작",
           startdate: "2021-11-01",
           enddate: "2021-11-30",
+        },
+        {
+          id: 2,
+          name: "wiki제작1",
+          startdate: "2021-11-03",
+          enddate: "2021-12-30",
+          projectId: 2,
+        },{
+          id: 3,
+          name: "wiki제작2",
+          startdate: "2021-11-02",
+          enddate: "2021-12-01",
+          projectId: 2,
         },
       ],
       startdate: "2021-11-01",
@@ -141,6 +196,20 @@ const initialState: ProjectState = {
           startdate: "2021-11-01",
           enddate: "2021-11-30",
         },
+        {
+          id: 2,
+          name: "borad제작1",
+          startdate: "2021-11-03",
+          enddate: "2021-12-30",
+          projectId: 1,
+        },
+        {
+          id: 3,
+          name: "borad제작2",
+          startdate: "2021-11-02",
+          enddate: "2021-12-01",
+          projectId: 1,
+        },
       ],
       startdate: "2021-11-01",
       enddate: "2021-11-30",
@@ -155,8 +224,6 @@ const initialState: ProjectState = {
   pageSize: 8,
   totalPages: 0,
 };
-
-
 
 const projectSlice = createSlice({
   name: "project",
@@ -203,7 +270,7 @@ const projectSlice = createSlice({
         projectItem.enddate = modifyItem.enddate;
         projectItem.manager = modifyItem.manager;
         projectItem.engineer = modifyItem.engineer;
-        projectItem.milestone = modifyItem.milestone;
+        // projectItem.milestone = modifyItem.milestone;
         projectItem.memo = modifyItem.memo;
       }
       state.isModifyCompleted = true; // 변경 되었음을 표시
@@ -260,16 +327,24 @@ const projectSlice = createSlice({
       project.milestone.push(milestone);
       state.isAddCompleted = true; // 추가가 되었음으로 표시
     },
+
+    // initialCompleted2: (state) => {
+    //   delete state.isAddCompleted;
+    //   delete state.isRemoveCompleted;
+    //   delete state.isModifyCompleted;
+    // },
+
     removeMilestone: (state, action: PayloadAction<MilestoneEdit>) => {
       const milestoneId = action.payload.milestoneId;
       const projectId = action.payload.projectId;
       // id에 해당하는 아이템의 index를 찾고 그 index로 splice를 한다.
       const findProject = state.data.find((item) => item.id === projectId);
-      const findMilestoneIndex = findProject?.milestone.findIndex((item) => item.id === milestoneId);
+      const findMilestoneIndex = findProject?.milestone.findIndex(
+        (item) => item.id === milestoneId +1
+      );
       if (findMilestoneIndex) {
-        findProject?.milestone.splice(findMilestoneIndex, 1)
+        findProject?.milestone.splice(findMilestoneIndex, 1);
       }
-
 
       state.isRemoveCompleted = true; // 삭제 되었음을 표시
     },
@@ -278,20 +353,22 @@ const projectSlice = createSlice({
       const modifyItem = action.payload;
       // state에 있는 객체
       const projectItem = state.data.find(
-        (item) => item.id == modifyItem.projectId
+        (item) => item.id === modifyItem.projectId
       );
       const milestonItem = projectItem?.milestone.find(
-        (item) => item.id == modifyItem.id
+        (item) => item.id === modifyItem.id
       );
       if (milestonItem) {
-        (milestonItem.name = milestonItem.name),
-          (milestonItem.startdate = modifyItem.startdate),
-          (milestonItem.enddate = modifyItem.enddate);
-      }
+        (modifyItem.name = milestonItem.name),
+          (modifyItem.startdate = milestonItem.startdate),
+          (modifyItem.enddate = milestonItem.enddate);
+      } 
       state.isModifyCompleted = true; // 변경 되었음을 표시
+      console.log("completed")
     },
     initialMilestoneItem: (state, action: PayloadAction<ProjectItem>) => {
       const milestone = action.payload;
+      
       // 백엔드에서 받아온 데이터
       state.data = [{ ...milestone }];
     },

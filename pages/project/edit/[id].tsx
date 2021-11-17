@@ -13,6 +13,7 @@ const ProjectEdit = () => {
     state.project.data.find((item) => item.id === +id)
   );
 
+
   const isModifyCompleted = useSelector(
     (state: RootState) => state.project.isModifyCompleted
   );
@@ -38,7 +39,7 @@ const ProjectEdit = () => {
       item.enddate = enddate.current.value;
       item.manager = manager.current.value;
       item.engineer = engineer.current.value;
-      item.milestone = [];
+      item.milestone = projectItem.milestone;
       item.memo = memo.current.value;
 
       saveItem(item);
