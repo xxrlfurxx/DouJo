@@ -24,7 +24,7 @@ import {
   takeEvery,
   takeLatest,
 } from "@redux-saga/core/effects";
-import {
+import api, {
   ProjectItemRequest,
   ProjectItemResponse,
   ProjectPagingReponse,
