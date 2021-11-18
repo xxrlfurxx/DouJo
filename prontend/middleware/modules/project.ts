@@ -180,16 +180,16 @@ function* fetchData() {
 
   const projects = result.data.map(
     (item) =>
-    ({
-      id: item.id,
-      projectname: item.projectname,
-      startdate: item.startdate,
-      enddate: item.enddate,
-      manager: item.manager,
-      engineer: item.engineer,
-      milestone: item.milestone,
-      memo: item.memo,
-    } as ProjectItem)
+      ({
+        id: item.id,
+        projectname: item.projectname,
+        startdate: item.startdate,
+        enddate: item.enddate,
+        manager: item.manager,
+        engineer: item.engineer,
+        milestone: item.milestone,
+        memo: item.memo,
+      } as ProjectItem)
   );
 
   yield put(initialProject(projects));
@@ -212,16 +212,16 @@ function* fethNextData(action: PayloadAction<PageRequest>) {
     const projectPage: ProjectPage = {
       data: result.data.content.map(
         (item) =>
-        ({
-          id: item.id,
-      projectname: item.projectname,
-      startdate: item.startdate,
-      enddate: item.enddate,
-      manager: item.manager,
-      engineer: item.engineer,
-      milestone: item.milestone,
-      memo: item.memo,
-        } as ProjectItem)
+          ({
+            id: item.id,
+            projectname: item.projectname,
+            startdate: item.startdate,
+            enddate: item.enddate,
+            manager: item.manager,
+            engineer: item.engineer,
+            milestone: item.milestone,
+            memo: item.memo,
+          } as ProjectItem)
       ),
       totalElements: result.data.totalElements,
       totalPages: result.data.totalPages,
@@ -231,10 +231,25 @@ function* fethNextData(action: PayloadAction<PageRequest>) {
     };
 
     yield put(initialNextProject(projectPage));
-}catch (e: any) {
-  console.log("Add Status: Error");
-}
+  } catch (e: any) {
+    console.log("Add Status: Error");
+  }
 }
 function* fetchDataItem(action: PayloadAction<number>) {
+  yield console.log("--fetchDataItem--");
 
+  const id = action.payload;
 
+  const result: AxiosResponse<ProjectItemResponse> = yield call(api.get, id);
+
+  const project = result.data;
+  if (project) {
+    yield put(initialProjectItem(project));
+  }
+}
+
+function* removeDataPaging(action: PayloadAction<number>) {
+  yield console.log("--removeData--");
+
+  const id = action.payload;
+}
