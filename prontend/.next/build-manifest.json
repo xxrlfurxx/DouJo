@@ -30,20 +30,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/feed": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/feed.js"
-    ],
     "/project": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/project.js"
     ],
-    "/wiki": [
+    "/project/milestone/edit/[id]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/wiki.js"
+      "static/chunks/pages/project/milestone/edit/[id].js"
     ]
   },
   "ampFirstPages": []
